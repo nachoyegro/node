@@ -33,7 +33,11 @@ class Server {
 
         // Middlewares
         this.middlewares();
+
+        //Sockets
+        this.sockets();
     }
+
 
     async conectarDB() {
         //await dbConnection();
@@ -57,8 +61,17 @@ class Server {
         //this.app.use( this.paths.auth, require('../routes/auth'));        
     }
 
+    sockets() {
+        this.io.on('connection', socket => {
+            console.log(`Se conectó el cliente ${socket.id}`);
+            socket.on('disconnect', () => {
+                console.log(`Se desconectó el cliente ${socket.id}`);
+            })
+        })
+    }
+
     listen() {
-        this.app.listen( this.port, () => {
+        this.server.listen( this.port, () => {
             console.log('Servidor corriendo en puerto', this.port );
         });
     }
