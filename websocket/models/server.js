@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import * as io from 'socket.io'
+import { createServer } from 'http'
 
 //const { dbConnection } = require('../database/config');
 
@@ -8,6 +10,8 @@ class Server {
     constructor() {
         this.app  = express();
         this.port = process.env.PORT;
+        this.server = createServer(this.app)
+        this.io = new io.Server(this.server)
 
         /*
         this.paths = {
